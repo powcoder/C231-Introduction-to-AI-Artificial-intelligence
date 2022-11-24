@@ -1,0 +1,69 @@
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+% ---------Simple Shopping Exercise 1 ----------
+% ++++++++++++++++++++++++++++++++++++++++++++
+
+% ------------- abducibles declaration ------
+
+abducible(happens(_,_)).
+
+% -------------- background knowledge --------
+
+time(T) :-
+	T in 0..4.
+
+% Simplified Event Calculus domain indpendent axioms
+
+holds(F, T) :-
+	time(T),
+	initially(F),
+	\+ clipped(0, F, T).
+
+holds(F, T) :-
+	time(T1), time(T),
+    0 #< T1, T1 #< T,
+    happens(A, T1),
+	initiates(A, F, T1).
+    \+ clipped(T1, F, T).
+
+clipped(T1, F, T) :-
+	time(T1), time(T), time(T2), 
+	T1 #< T2, T2 #< T,
+    happens(A, T2),
+    terminates(A, F, T2).
+
+
+
+% action effect conditions
+
+initiates(buy(X), have(X), T) :- X=/= money, holds(have(money), T).
+initiates(hire(X), have(X), T) :- X=/= money, X =/= home, holds(have(money), T).
+terminates(buy(X), have(money), T).
+%initiates(hire(car), have(car), T) :- holds(own(driving_licence), T).
+initiates(borrow(X), have(X), T):- X =/= home.
+%initiates(driving_test, own(driving_license), T).
+
+item(pc).
+item(tv).
+item(home).
+item(money).
+item(car).
+
+%initially(own(driving_licence)).
+
+ic :- happens(E1, T), happens(E2, T), E1 =/= E2.
+%ic :- happens(borrow(car), T), \+ holds(own(driving_license), T).
+ic :- happens(hire(car), T), \+ holds(own(driving_license), T).
+
+
+% examples goals
+
+% eval([holds(have(car), 2), holds(have(home), 4)], Ans).
+% query([holds(have(X), 3)], (As,Cs,_)).
+% eval([holds(have(X), 3)], Ans).

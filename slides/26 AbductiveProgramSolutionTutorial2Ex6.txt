@@ -1,0 +1,119 @@
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+% --------- Child Snack ----------
+% ++++++++++++++++++++++++++++++++++++++++++++
+
+% ------------- abducibles declaration ------
+
+abducible(happens(_,_)).
+
+% -------------- background knowledge --------
+
+time(T) :-
+	T in 0..5.
+
+% Simplified Event Calculus domain indpendent axioms
+
+holds(F, T) :-
+	time(T),
+	initially(F),
+	\+ clipped(0, F, T).
+
+holds(F, T) :-
+	time(T1), time(T),
+	0 #< T1, T1 #< T,
+	happens(A, T1),
+	initiates(A, F, T1),
+	\+ clipped(T1, F, T).
+
+clipped(T1, F, T) :-
+	time(T1), time(T), time(T2), 
+	T1 #< T2, T2 #< T,
+	happens(A, T2),
+	terminates(A, F, T2).
+
+% action effect conditions
+
+initiates(serveSandwich(sand(B,C), Child), sandserved(sand(B,C), Child), T) :-  
+	noAllergicGluten(Child), 
+	holds(ontray(sand(B,C), Tray), T), tray(Tray).
+	
+terminates(serveSandwich(sand(B,C), Child), ontray(sand(B,C), Tray), T).
+
+initiates(serveSandwich(sand(B,C), Child), sandserved(sand(B,C), Child), T) :-  
+	allergicGluten(Child),
+	holds(ontray(sandNoGluten(B,C), Tray), T), tray(Tray).
+	
+terminates(serveSandwich(sand(B,C), Child), ontray(sandNoGluten(B,C), Tray), T).
+	
+initiates(putOnTray(sand(B,C),Tray), ontray(sand(B,C), Tray), T) :-  
+	tray(Tray),
+	holds(at_kitchen(sand(B,C)), T),
+	holds(at_kitchen(Tray), T).
+	
+initiates(putOnTray(sandNoGluten(B,C),Tray), ontray(sandNoGluten(B,C), Tray), T) :-  
+	tray(Tray),
+	holds(at_kitchen(sandNoGluten(B,C)), T),
+	holds(at_kitchen(Tray), T).
+	
+terminates(putOnTray(sand(B,C), Tray), at_kitchen(sand(B,C)), T):-
+           tray(Tray).
+           
+terminates(putOnTray(sand(B,C), Tray), at_kitchen(sandNoGluten(B,C)), T):-       
+           tray(Tray).
+
+initiates(makeSand(B,C), at_kitchen(sand(B,C)), T) :- 
+	bread(B),
+	filler(C).
+	
+initiates(makeNoGlutenSand(B, C), at_kitchen(sandNoGluten(B,C)), T) :- 
+	noGlutenBread(B),
+	noGlutenSandFilling(C).
+	           
+initiates(moveTrayKitchen(Tray), at_kitchen(Tray), T):- 
+	tray(Tray), 
+	\+ holds(at_kitchen(Tray), T).
+	
+terminates(moveTrayKitchen(Tray), storageRood(Tray), T):- 
+	tray(Tray).
+
+filler(C) :- noGlutenSandFilling(C).
+filler(C) :- sandFilling(C).
+
+% initial state and static facts
+
+noGlutenBread(bread1).
+noGlutenSandFilling(sandFilling1).
+bread(bread2).
+sandFilling(sandFilling2).
+tray(tray1).
+tray(tray2).
+allergicGluten(john).
+noAllergicGluten(mark). 
+
+initially(storageRood(tray1)).
+initially(storageRood(tray2)).
+
+
+
+
+
+% ------------- integrity constraints -----------
+
+% concurrent actions not allowed
+ic :- happens(E1, T), happens(E2, T), E1 =/= E2.
+
+% +++++++++++++++++++++++++++++
+
+% example queries
+
+% query([holds(sandserved(sand(B,C), john), T)], Ans).
+% eval([holds(sandserved(sand(B,C), john), 5)], Ans).
+% query([holds(sandserved(sand(B,C), john), 5)], (As,Cs,_)).
+% eval([holds(sandserved(sand(B,C), mark), 5)], Ans).

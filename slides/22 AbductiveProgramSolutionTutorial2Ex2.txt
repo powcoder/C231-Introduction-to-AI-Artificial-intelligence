@@ -1,0 +1,37 @@
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+% ---------Exercise 2 ----------
+% ++++++++++++++++++++++++++++++++++++++++++++
+
+% ------------- abducibles declaration ------
+
+abducible(bornIn(_,_)).
+abducible(bornOut(_,_)).
+abducible(resident(_,_)).
+abducible(naturalised(_,_)).
+abducible(registered(_,_)).
+
+
+% -------------- background knowledge --------
+
+mother(mary, john).
+citizen(mary, usa).
+citizen(X, usa) :- bornIn(X, usa).
+citizen(X, usa) :- bornOut(X, usa), resident(X,usa), naturalised(X,usa).
+citizen(X, usa) :- mother(Y, X), citizen(Y, usa), bornOut(X, usa), registered(X, usa).
+
+
+% ------------- integrity constraints -----------
+
+% concurrent actions not allowed
+ic :- resident(john, usa). 
+
+% goal for the abductive proof
+% query([citizen(john, usa)], (As,Cs,_)).
+% eval([citizen(john, usa)], Ans).

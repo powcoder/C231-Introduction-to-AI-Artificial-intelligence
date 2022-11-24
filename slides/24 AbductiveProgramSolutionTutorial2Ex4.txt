@@ -1,0 +1,82 @@
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+% ------  FaultDiagnosis ------
+% +++++++++++++++++++++++++++
+
+% ----- abducible predicates -----
+
+abducible(state(_,_)).
+
+% ----- background knowledge -----
+
+has_power(n1):- state(pp1,up), state(w1,up).
+has_power(n2):- state(w2,up), has_power(n1).
+has_power(n3):- state(w3,up), has_power(n2).
+has_power(n4):- state(w5,up), has_power(n1).
+
+has_power(v1):- state(w6,up), has_power(n2).
+has_power(v2):- state(w7,up), has_power(n3).
+has_power(v3):- state(w4,up), has_power(n3).
+has_power(v4):- state(w8,up), has_power(n4).
+has_power(v5):- state(w9,up), has_power(n4).
+
+has_no_power(n1) :- state(pp1, down).
+has_no_power(n1) :- state(w1, down).
+
+has_no_power(n2) :- state(w2, down).
+has_no_power(n2) :- has_no_power(n1).
+
+has_no_power(n3) :- state(w3, down).
+has_no_power(n3) :- has_no_power(n2).
+
+has_no_power(n4) :- state(w5, down).
+has_no_power(n4) :- has_no_power(n1).
+
+has_no_power(v1) :- state(w6, down).
+has_no_power(v1) :- has_no_power(n2).
+
+has_no_power(v2) :- state(w7, down).
+has_no_power(v2) :- has_no_power(n3).
+
+has_no_power(v3) :- state(w4, down).
+has_no_power(v3) :- has_no_power(n3).
+
+has_no_power(v4) :- state(w8, down).
+has_no_power(n4) :- has_no_power(n4).
+
+has_no_power(v5) :- state(w9, down).
+has_no_power(v5) :- has_no_power(n4).
+
+observe_all_butV3:- 
+	has_power(v1), has_power(v2), has_no_power(v3),
+	has_power(v4), has_power(v5).
+
+observe_all_butV1V3:-
+  has_no_power(v1), has_power(v2), has_no_power(v3),
+  has_power(v4), has_power(v5).
+
+observe_V4V5:- 
+  has_no_power(v1), has_no_power(v2), has_no_power(v3),
+  has_power(v4), has_power(v5).
+
+ic:- state(X,up), state(X,down).
+
+
+	
+% +++++++++++++++++++++++++++++
+
+% example goals
+
+%.
+% query([observe_all_butV1V3],(As,Cs,_)).
+% eval([observe_all_butV1V3],Ans).
+% query([observe_all_butV3],(As,Cs,_)).
+% eval([observe_all_butV3],Ans).
+% query([observe_V4V5],(As,Cs,_)).
+% eval([observe_V4V5],Ans).

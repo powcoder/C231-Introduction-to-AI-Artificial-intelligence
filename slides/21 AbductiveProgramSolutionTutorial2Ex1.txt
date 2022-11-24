@@ -1,0 +1,36 @@
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+https://powcoder.com
+代写代考加微信 powcoder
+Assignment Project Exam Help
+Add WeChat powcoder
+% ---------Simple Shopping Exercise 1 ----------
+% ++++++++++++++++++++++++++++++++++++++++++++
+
+% ------------- abducibles declaration ------
+
+abducible(amt(_,_)).
+abducible(sugar(_)).
+
+% -------------- background knowledge --------
+
+feed(lact) :- make(perm), make(gala).
+make(E) :- code(G,E), express(G).
+code(lact(y), perm).
+code(lact(z), gala).
+express(lact(X)) :- amt(gluc, lo), amt(lact,hi).
+
+
+% ------------- integrity constraints -----------
+
+% concurrent actions not allowed
+ic :- amt(S,lo), amt(S, hi).
+ic :- amt(S,V), \+ sugar(S).
+
+
+% example queries
+
+% goal for the abductive proof
+% query([feed(lact)], (As,Cs,_)).
